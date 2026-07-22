@@ -1,0 +1,50 @@
+Creative Commons Atribuição-NãoComercial-CompartilhaIgual 4.0 Internacional
+(CC BY-NC-SA 4.0)
+
+Copyright (c) 2026 Filipe Leandro
+
+Este trabalho — o jogo TRÊS DOBRAS, incluindo o texto das cartas, as regras, a
+arte do tabuleiro, da caixa e das peças, e o código que os gera — está licenciado
+sob a Creative Commons Atribuição-NãoComercial-CompartilhaIgual 4.0 Internacional.
+
+VOCÊ PODE:
+
+  Compartilhar — copiar e redistribuir o material em qualquer suporte ou formato,
+  inclusive mandando imprimir para o seu evento, a sua igreja ou o seu grupo.
+
+  Adaptar — remixar, transformar e criar a partir do material.
+
+DE ACORDO COM OS SEGUINTES TERMOS:
+
+  Atribuição — Você deve dar o crédito apropriado, prover um link para a licença
+  e indicar se mudanças foram feitas.
+
+  NãoComercial — Você não pode usar o material para fins comerciais. Cobrar do
+  participante apenas o custo de impressão não é uso comercial; vender o jogo é.
+
+  CompartilhaIgual — Se você remixar ou transformar o material, deve distribuir
+  suas contribuições sob a mesma licença que o original.
+
+  Sem restrições adicionais — Você não pode aplicar termos jurídicos ou medidas
+  de caráter tecnológico que restrinjam legalmente outros de fazerem algo que a
+  licença permita.
+
+TEXTO LEGAL COMPLETO:
+https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.pt
+
+RESUMO LEGÍVEL:
+https://creativecommons.org/licenses/by-nc-sa/4.0/deed.pt
+
+---
+
+OBSERVAÇÕES SOBRE TERCEIROS
+
+As citações bíblicas (Eclesiastes 4.9-12, Cântico dos Cânticos 4.9-12,
+João 13.14, 1 Coríntios 7.3-5) são de domínio público em português nas traduções
+de referência utilizadas.
+
+As fontes tipográficas Palatino Linotype e Corbel NÃO fazem parte desta licença.
+São fontes licenciadas de terceiros, instaladas com o Microsoft Windows. Os PDFs
+deste repositório as trazem embutidas apenas para fins de impressão, como permite
+o licenciamento de incorporação dessas famílias. Quem for regerar a arte precisa
+tê-las instaladas, ou substituí-las em src/comum.py.

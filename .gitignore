@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# previews de trabalho (regeráveis com src/gerar_tudo.py)
+_previews/
+
+# sistema
+Thumbs.db
+desktop.ini
+.DS_Store
