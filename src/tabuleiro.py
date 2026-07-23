@@ -73,9 +73,12 @@ def casa(p, i, x, y, tipo):
     ICONES[tipo](p, x, y + 1.8, 12.0, cor)
     p.txt_fit(x, y - 10.4, NAIPES[tipo]["nome"], "TextoBold", 4.8, CEL - 5.0,
               cor, "c", tracking=0.45)
-    # número da casa
-    p.circ(x - CEL / 2 + 3.9, y + CEL / 2 - 3.9, 2.6, fill=cor)
-    p.txt(x - CEL / 2 + 3.9, y + CEL / 2 - 5.0, str(i), "TextoBold", 4.6, BRANCO, "c")
+    # número da casa — PADRÃO único em todas: círculo petróleo, número branco,
+    # borda dourada. (antes cada um usava a cor do naipe, sem padrão.)
+    bx, by = x - CEL / 2 + 4.0, y + CEL / 2 - 4.0
+    p.circ(bx, by, 2.9, fill=PETROLEO)
+    p.circ(bx, by, 2.9, stroke=tinta(DOURADO, 90), lw=0.35)
+    p.txt_fit(bx, by - 1.55, str(i), "TextoBold", 4.6, 4.4, BRANCO, "c")
 
 
 def seta(p, x, y, ang):
@@ -195,7 +198,7 @@ def frente(p):
     painel_esquerdo(p)
     painel_direito(p)
     # marca d'água grande e bem transparente, POR CIMA de tudo (overlay uniforme)
-    marca_casal(p, 200, 152, 205, PETROLEO, 13)
+    marca_casal(p, 200, 152, 205, PETROLEO, 15)
     p.marcas_corte(vinco_x=DOBRA_X, rotulo="TRES DOBRAS · TABULEIRO · FRENTE · 400x300mm · sangria 3mm · CMYK")
 
 
