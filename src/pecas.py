@@ -123,7 +123,8 @@ def cartela(p):
     p.txt(142, 27, "Podem subir de nível quando quiserem.", "TituloIt", 4.4,
           tinta(PETROLEO, 70), "c")
 
-    p.marcas_corte(rotulo="TRES DOBRAS · CARTELA DE PECAS · 200x280mm · papelao 1,5mm · faca em MAGENTA")
+    p.marcas_corte(rotulo="TRES DOBRAS · CARTELA DE PECAS · 200x280mm · papelao 1,5mm · faca em MAGENTA",
+                   faca=FACA)
 
 
 # ============================================================== 2) DADO ======
@@ -215,7 +216,8 @@ def dado(p):
     p.txt(DW / 2, 8, "abas em cinza colam por dentro", "TituloIt", 3.8,
           tinta(PETROLEO, 60), "c")
 
-    p.marcas_corte(rotulo="TRES DOBRAS · DADO MONTAVEL · cubo 20mm · faca MAGENTA · vinco CIANO")
+    p.marcas_corte(rotulo="TRES DOBRAS · DADO MONTAVEL · cubo 20mm · faca MAGENTA · vinco CIANO",
+                   faca=FACA, vinco=VINCO_C)
 
 
 # ========================================================== 3) ENVELOPE ======
@@ -287,7 +289,8 @@ def envelope(p):
     vinco(p, xf, y_verso, xf, y_verso + EP_H)            # aba lateral esq.
     vinco(p, xf + EP_W, y_verso, xf + EP_W, y_verso + EP_H)
 
-    p.marcas_corte(rotulo="TRES DOBRAS · ENVELOPE SELADO · planificado 108x305mm · faca MAGENTA · vinco CIANO")
+    p.marcas_corte(rotulo="TRES DOBRAS · ENVELOPE SELADO · planificado 108x305mm · faca MAGENTA · vinco CIANO",
+                   faca=FACA, vinco=VINCO_C)
 
 
 # ============================================================================

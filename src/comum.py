@@ -214,7 +214,9 @@ class Prancha:
         return yy + el - tam * 0.25
 
     # -- marcas de impressão -------------------------------------------------
-    def marcas_corte(self, vinco_x=None, rotulo=""):
+    def marcas_corte(self, vinco_x=None, rotulo="", faca=None, vinco=None):
+        """faca / vinco: se informados (cores técnicas da peça), desenha na margem
+           uma legenda explicando o que é linha de CORTE (destaque) e de DOBRA."""
         if not self.marcas:
             return
         c = self.c
@@ -232,7 +234,7 @@ class Prancha:
             c.line(vinco_x, -s - 1.5, vinco_x, -s - L - 1.5)
             c.line(vinco_x, H + s + 1.5, vinco_x, H + s + L + 1.5)
             c.setDash([])
-            self.txt(vinco_x + 2, H + s + 3.5, "VINCO", "Texto", 4, REGISTRO)
+            self.txt(vinco_x + 2, H + s + 3.5, "VINCO / DOBRA", "Texto", 4, REGISTRO)
         # barra de registro + rótulo
         self.txt(0, H + s + L + 3, rotulo, "Texto", 4.5, REGISTRO)
         x0 = W - 44
@@ -240,6 +242,19 @@ class Prancha:
                                  cmyk(0, 0, 100, 0), cmyk(0, 0, 0, 100),
                                  REGISTRO]):
             self.ret(x0 + i * 9, H + s + L + 2, 8, 4, fill=cor)
+        # legenda das linhas técnicas — na margem inferior, fora do trim (some
+        # quando a gráfica isola/remove as chapas técnicas magenta/ciano).
+        if faca is not None or vinco is not None:
+            lx, ly = 1.0, -s - 3.5                  # dentro da margem inferior (12 mm)
+            if faca is not None:
+                c.setStrokeColor(faca); c.setLineWidth(0.7); c.setDash([])
+                c.line(lx, ly, lx + 7, ly)
+                self.txt(lx + 9, ly - 1.3, "FACA = corte / destaque", "Texto", 3.6, faca)
+            if vinco is not None:
+                ly2 = ly - (4.0 if faca is not None else 0.0)
+                c.setStrokeColor(vinco); c.setLineWidth(0.7); c.setDash([2.0, 1.5])
+                c.line(lx, ly2, lx + 7, ly2); c.setDash([])
+                self.txt(lx + 9, ly2 - 1.3, "VINCO = dobra / vinco", "Texto", 3.6, vinco)
 
     def fundo_sangria(self, cor=CREME):
         s = SANGRIA

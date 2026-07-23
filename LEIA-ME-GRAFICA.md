@@ -6,7 +6,13 @@
 Três projetos independentes: **tabuleiro**, **caixa** e **peças**.
 Toda a arte é **vetorial** (PDF), em **CMYK**, com **sangria de 3 mm**.
 Resolução não é limite: pode ser rasterizada em qualquer dpi. Há um lote pronto em
-**300 dpi** na pasta `_png-300dpi`.
+**300 dpi de todas as peças** na pasta `04-PNG-300DPI` (as 60 cartas ficam na
+subpasta `cartas/`).
+
+**Linhas técnicas — marcas de dobra e destaque.** Cada peça traz, na **margem**
+(fora do corte), uma **legenda** das linhas técnicas: **magenta = FACA** (corte /
+destaque) e **ciano = VINCO** (dobra). Ambas em sobreimpressão — **isole numa camada
+técnica e não imprima**. O tabuleiro marca a dobra central (vinco em x = 200).
 
 ---
 

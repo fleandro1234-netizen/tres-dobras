@@ -408,6 +408,16 @@ ol.passos p{color:var(--txt-dim);font-size:.96rem}
   letter-spacing:.1em;text-transform:uppercase;color:var(--txt-dim)}
 .legend span{display:inline-flex;align-items:center;gap:6px}
 .legend i{width:11px;height:11px;border-radius:2px;flex:none}
+.dlgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;margin-top:6px}
+.dlcard{border:1px solid var(--line);border-radius:3px;padding:20px;background:var(--surface);
+  display:grid;gap:9px;align-content:start}
+.dlcard h3{font-size:1.15rem;color:var(--gold)}
+.dlcard>p{color:var(--txt-dim);font-size:.84rem;margin-bottom:4px}
+.dl{font-family:var(--mono);font-size:.66rem;letter-spacing:.07em;text-transform:uppercase;
+  text-decoration:none;color:var(--txt);border:1px solid var(--line);border-radius:2px;
+  padding:9px 12px;display:flex;justify-content:space-between;gap:10px}
+.dl:hover,.dl:focus-visible{border-color:var(--gold);color:var(--gold)}
+.dl b{font-weight:400;color:var(--gold)}
 
 /* ---------- ficha técnica ---------- */
 .specs{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1px;
@@ -471,6 +481,7 @@ footer{padding:44px 0 60px;color:var(--txt-dim);font-size:.88rem;display:grid;ga
       <li><a href="#caixa">Caixa</a></li>
       <li><a href="#pecas">Peças</a></li>
       <li><a href="#ficha">Ficha técnica</a></li>
+      <li><a href="#grafica">Downloads</a></li>
     </ul>
   </div>
 </nav>
@@ -646,6 +657,50 @@ footer{padding:44px 0 60px;color:var(--txt-dim);font-size:.88rem;display:grid;ga
     cartas de 70 × 120 para 63 × 88 (formato pôquer); cartela em cartão 400 g em
     vez de papelão cartonado; caixa só com tampa; dado plástico comprado no lugar
     do montável.</div>
+</div></section>
+
+<section id="grafica"><div class="wrap">
+  <div class="shead">
+    <p class="eyebrow">Para a gráfica</p>
+    <h2>Baixe os arquivos de impressão</h2>
+    <p>Todos os projetos em PDF vetorial CMYK, sangria de 3 mm, com marcas de corte,
+      de vinco (dobra) e de faca (destaque). Também há um lote em PNG 300 dpi. As
+      linhas técnicas seguem este padrão — isole numa camada e não imprima:</p>
+    <div class="legend" style="margin-top:14px">
+      <span><i style="background:var(--faca)"></i> Faca — corte / destaque</span>
+      <span><i style="background:var(--vinco)"></i> Vinco — dobra</span>
+      <span><i style="background:var(--gold)"></i> Sangria 3 mm + marcas de corte</span>
+    </div>
+  </div>
+  <div class="dlgrid">
+    <div class="dlcard">
+      <h3>Tabuleiro</h3>
+      <p>400 × 300 mm · vinco em x = 200 · cartão 300 g, 4/4</p>
+      <a class="dl" href="https://github.com/fleandro1234-netizen/tres-dobras/raw/main/01-TABULEIRO/TABULEIRO_400x300_COM-MARCAS.pdf">PDF com marcas <b>&darr;</b></a>
+      <a class="dl" href="https://github.com/fleandro1234-netizen/tres-dobras/raw/main/01-TABULEIRO/TABULEIRO_400x300_SANGRIA-3mm.pdf">PDF só sangria <b>&darr;</b></a>
+    </div>
+    <div class="dlcard">
+      <h3>Caixa</h3>
+      <p>Tampa 267 × 367 · Fundo 259 × 359 mm · faca + vinco</p>
+      <a class="dl" href="https://github.com/fleandro1234-netizen/tres-dobras/raw/main/02-CAIXA/CAIXA-TAMPA_267x367_faca.pdf">Tampa <b>&darr;</b></a>
+      <a class="dl" href="https://github.com/fleandro1234-netizen/tres-dobras/raw/main/02-CAIXA/CAIXA-FUNDO_259x359_faca.pdf">Fundo <b>&darr;</b></a>
+    </div>
+    <div class="dlcard">
+      <h3>Peças</h3>
+      <p>Cartas 70 × 120 · cartela · dado · envelope</p>
+      <a class="dl" href="https://github.com/fleandro1234-netizen/tres-dobras/raw/main/03-PECAS/CARTAS_FRENTES_70x120_sangria-3mm.pdf">Cartas — frentes <b>&darr;</b></a>
+      <a class="dl" href="https://github.com/fleandro1234-netizen/tres-dobras/raw/main/03-PECAS/CARTAS_VERSOS_70x120_sangria-3mm.pdf">Cartas — versos <b>&darr;</b></a>
+      <a class="dl" href="https://github.com/fleandro1234-netizen/tres-dobras/raw/main/03-PECAS/CARTELA-PECAS_200x280_sangria-3mm.pdf">Cartela <b>&darr;</b></a>
+      <a class="dl" href="https://github.com/fleandro1234-netizen/tres-dobras/raw/main/03-PECAS/DADO-MONTAVEL_100x90_sangria-3mm.pdf">Dado <b>&darr;</b></a>
+      <a class="dl" href="https://github.com/fleandro1234-netizen/tres-dobras/raw/main/03-PECAS/ENVELOPE-SELADO_108x305_faca.pdf">Envelope <b>&darr;</b></a>
+    </div>
+  </div>
+  <div class="note" style="margin-top:26px">
+    Precisa de raster? Há PNG <b>300 dpi</b> de todas as peças em
+    <a href="https://github.com/fleandro1234-netizen/tres-dobras/tree/main/04-PNG-300DPI">04-PNG-300DPI</a>
+    (o tabuleiro sai em 4796 × 3615 px). A ficha completa de produção está em
+    <a href="https://github.com/fleandro1234-netizen/tres-dobras/blob/main/LEIA-ME-GRAFICA.md">LEIA-ME-GRAFICA.md</a>.
+  </div>
 </div></section>
 </main>
 

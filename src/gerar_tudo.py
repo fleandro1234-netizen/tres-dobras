@@ -55,11 +55,28 @@ def main(png300=False):
     print(f"  {n} imagens em {prev}")
 
     if png300:
-        print("\n[PNG 300 dpi — tabuleiro e tampa]")
-        d300 = os.path.join(RAIZ, "_png-300dpi"); os.makedirs(d300, exist_ok=True)
-        for cam in (tab, os.path.join(RAIZ, "02-CAIXA", "CAIXA-TAMPA_267x367_faca.pdf")):
-            for c, w, h in render(cam, 300, d300):
+        print("\n[PNG 300 dpi — todas as peças -> 04-PNG-300DPI]")
+        d300 = os.path.join(RAIZ, "04-PNG-300DPI"); os.makedirs(d300, exist_ok=True)
+        PECAS_300 = [
+            ("01-TABULEIRO", "TABULEIRO_400x300_SANGRIA-3mm.pdf"),   # frente + verso
+            ("02-CAIXA",     "CAIXA-TAMPA_267x367_faca.pdf"),
+            ("02-CAIXA",     "CAIXA-FUNDO_259x359_faca.pdf"),
+            ("03-PECAS",     "CARTELA-PECAS_200x280_sangria-3mm.pdf"),
+            ("03-PECAS",     "DADO-MONTAVEL_100x90_sangria-3mm.pdf"),
+            ("03-PECAS",     "ENVELOPE-SELADO_108x305_faca.pdf"),
+        ]
+        n300 = 0
+        for pasta, arq in PECAS_300:
+            for c, w, h in render(os.path.join(RAIZ, pasta, arq), 300, d300):
+                n300 += 1
                 print(f"  {w}x{h}px  {os.path.basename(c)}")
+        # cartas: as 60 frentes + as 2 artes de verso (páginas 1 e 60), em subpasta
+        dcar = os.path.join(d300, "cartas"); os.makedirs(dcar, exist_ok=True)
+        n300 += len(render(os.path.join(RAIZ, "03-PECAS",
+                    "CARTAS_FRENTES_70x120_sangria-3mm.pdf"), 300, dcar))
+        n300 += len(render(os.path.join(RAIZ, "03-PECAS",
+                    "CARTAS_VERSOS_70x120_sangria-3mm.pdf"), 300, dcar, paginas=[1, 60]))
+        print(f"  {n300} imagens 300 dpi em {d300}")
 
     print(f"\nConcluído em {time.time()-t0:.1f}s")
     if TRAVADOS:

@@ -159,7 +159,8 @@ def tampa(p):
                    tinta(DOURADO, 95), 2.6)
 
     contorno(p, cx)
-    p.marcas_corte(rotulo="TRES DOBRAS · CAIXA TAMPA · interno 207x307x30mm · planificado 267x367mm · faca MAGENTA / vinco CIANO")
+    p.marcas_corte(rotulo="TRES DOBRAS · CAIXA TAMPA · interno 207x307x30mm · planificado 267x367mm · faca MAGENTA / vinco CIANO",
+                   faca=FACA, vinco=VINCO_C)
 
 
 # --------------------------------------------------------------- FUNDO ------
@@ -217,7 +218,8 @@ def fundo(p):
     marca_casal(p, ccx, py + L / 2, 150, PETROLEO, 10)
 
     contorno(p, cx)
-    p.marcas_corte(rotulo="TRES DOBRAS · CAIXA FUNDO · interno 203x303x28mm · planificado 259x359mm · faca MAGENTA / vinco CIANO")
+    p.marcas_corte(rotulo="TRES DOBRAS · CAIXA FUNDO · interno 203x303x28mm · planificado 259x359mm · faca MAGENTA / vinco CIANO",
+                   faca=FACA, vinco=VINCO_C)
 
 
 # ----------------------------------------------------------------------------
