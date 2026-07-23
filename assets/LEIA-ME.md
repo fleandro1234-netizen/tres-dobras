@@ -1,21 +1,16 @@
 # Arte da marca "Casados para a Glória de Deus"
 
-Coloque aqui os dois arquivos originais e a marca d'água passa a usar a **arte real**
-(hoje, sem eles, o motor usa uma silhueta recriada só para posicionar).
+Arte oficial do ministério, usada como marca do jogo.
 
-| Arquivo | O que é | Como deve estar |
+| Arquivo | O que é | Origem |
 |---|---|---|
-| `casal.png`  | a **silhueta do casal** | fundo transparente OU fundo branco; desenho escuro. Vira marca d'água tingida na cor do material. |
-| `logo.png`   | o **letreiro** "CASADOS PARA GLÓRIA DE DEUS" | idem — fundo transparente/branco, desenho escuro. |
+| `casal.png` | silhueta do casal (1071×737) | enviada pelo usuário, margens recortadas |
+| `logo.png`  | letreiro "CASADOS PARA GLÓRIA DE DEUS" (1036×330) | idem |
 
-Não precisa recortar nem trocar a cor: o motor lê a forma escura, joga fora o fundo
-claro e tinge na cor certa (petróleo, dourado etc.) na opacidade da marca d'água.
+O motor (`src/marca.py`) lê a forma escura, joga fora o fundo claro do JPEG e
+tinge na cor do material (petróleo, dourado…) na opacidade da marca d'água.
+Aplicada no verso do Pacto (acima das assinaturas) e no rodapé das costas das cartas.
 
-Depois de salvar, rode:
-
-```bash
-python src/gerar_tudo.py --png300
-```
-
-e a marca real aparece no tabuleiro (verso), nas costas das cartas e na caixa,
-substituindo a silhueta recriada — sem mexer em mais nada.
+Para trocar por uma versão nova, é só substituir o arquivo (mesmo nome) e rodar
+`python src/gerar_tudo.py --png300`. Se um dia faltar `casal.png`, o motor cai
+num traçado vetorial fiel da figura (fallback em `src/marca.py`).

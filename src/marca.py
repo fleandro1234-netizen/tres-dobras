@@ -38,60 +38,60 @@ def _png_oficial():
 # centro em (cx,cy), altura = s. Dois perfis frente a frente sobre uma base
 # de mãos em concha.
 # ---------------------------------------------------------------------------
-def _casal_vetor(p, cx, cy, s, cor):
-    c = p.c
-    c.setFillColor(cor)
-    c.setLineJoin(1); c.setLineCap(1)
-
-    def X(u): return cx + u * s
-    def Y(v): return cy + v * s
-
-    def perfil(pts):
-        assert (len(pts) - 1) % 3 == 0, f"pontos={len(pts)} (precisa 1+3k)"
-        pth = c.beginPath()
-        pth.moveTo(X(pts[0][0]), Y(pts[0][1]))
-        for i in range(1, len(pts), 3):
-            (x1, y1), (x2, y2), (x3, y3) = pts[i], pts[i + 1], pts[i + 2]
-            pth.curveTo(X(x1), Y(y1), X(x2), Y(y2), X(x3), Y(y3))
-        pth.close()
-        c.drawPath(pth, stroke=0, fill=1)
-
-    # ---- base: mãos em concha ancorando o casal --------------------------
+def _suave(c, pts, X, Y):
+    """Curva fechada e suave passando por TODOS os âncoras (Catmull-Rom→Bézier)."""
+    n = len(pts)
+    def P(i): return pts[i % n]
     pth = c.beginPath()
-    pth.moveTo(X(-0.50), Y(-0.14))
-    pth.curveTo(X(-0.30), Y(-0.42), X(0.30), Y(-0.42), X(0.50), Y(-0.14))
-    pth.curveTo(X(0.30), Y(-0.30), X(-0.30), Y(-0.30), X(-0.50), Y(-0.14))
+    pth.moveTo(X(P(0)[0]), Y(P(0)[1]))
+    for i in range(n):
+        p0, p1, p2, p3 = P(i - 1), P(i), P(i + 1), P(i + 2)
+        c1 = (p1[0] + (p2[0] - p0[0]) / 6.0, p1[1] + (p2[1] - p0[1]) / 6.0)
+        c2 = (p2[0] - (p3[0] - p1[0]) / 6.0, p2[1] - (p3[1] - p1[1]) / 6.0)
+        pth.curveTo(X(c1[0]), Y(c1[1]), X(c2[0]), Y(c2[1]), X(p2[0]), Y(p2[1]))
     pth.close()
     c.drawPath(pth, stroke=0, fill=1)
 
-    # ---- ELE (direita), perfil voltado para a ESQUERDA, mais alto --------
-    #  sequência: topo -> desce a FRENTE (testa,nariz,lábio,queixo,pescoço)
-    #  -> base -> sobe a NUCA/cabelo -> topo
-    perfil([
-        (0.22, 0.50),
-        (0.12, 0.47), (0.075, 0.40), (0.075, 0.33),      # testa
-        (0.075, 0.30), (0.010, 0.27), (0.015, 0.235),    # nariz
-        (0.055, 0.225), (0.045, 0.205), (0.035, 0.195),  # sulco + lábio sup.
-        (0.030, 0.175), (0.055, 0.165), (0.070, 0.130),  # lábio inf. + queixo
-        (0.095, 0.075), (0.135, 0.020), (0.160, -0.070), # mandíbula + pescoço
-        (0.230, -0.100), (0.300, -0.110), (0.360, -0.060),  # base do pescoço
-        (0.420, 0.010), (0.470, 0.150), (0.450, 0.300),  # nuca
-        (0.440, 0.400), (0.360, 0.510), (0.220, 0.500),  # cabelo/topo
-    ])
 
-    # ---- ELA (esquerda), perfil voltado para a DIREITA, menor, coque -----
-    perfil([
-        (-0.26, 0.40),
-        (-0.150, 0.375), (-0.110, 0.320), (-0.110, 0.270),  # testa
-        (-0.110, 0.245), (-0.045, 0.220), (-0.050, 0.190),  # nariz
-        (-0.090, 0.180), (-0.078, 0.163), (-0.070, 0.153),  # sulco + lábio
-        (-0.066, 0.135), (-0.090, 0.128), (-0.105, 0.098),  # lábio inf. + queixo
-        (-0.130, 0.050), (-0.170, -0.005), (-0.190, -0.075),# mandíbula + pescoço
-        (-0.250, -0.100), (-0.320, -0.100), (-0.380, -0.055),# base do pescoço
-        (-0.440, 0.020), (-0.470, 0.150), (-0.420, 0.245),  # nuca
-        (-0.470, 0.300), (-0.380, 0.360), (-0.310, 0.320),  # coque
-        (-0.300, 0.360), (-0.260, 0.430), (-0.260, 0.400),  # topo
-    ])
+# Traçado fiel da figura oficial "Casados para a Glória de Deus".
+# Âncoras lidas na imagem de referência 1080x1080 (x→direita, y→BAIXO);
+# um único contorno (o vão central é aberto no topo, entre os narizes).
+_CX_IMG, _CY_IMG, _ESC = 537.0, 512.0, 1035.0
+_CASAL_IMG = [
+    (585, 150), (700, 158), (785, 205), (828, 300), (838, 378),     # coroa/nuca dele
+    (846, 400), (856, 406), (856, 434), (812, 432), (818, 454),     # gola
+    (833, 505), (895, 548), (985, 585), (1050, 632),                # ombro → folha dir.
+    (1000, 715), (905, 808), (838, 862), (768, 815), (712, 762),    # folha dir. embaixo
+    (620, 822), (470, 830), (330, 808), (195, 772),                 # base
+    (95, 752), (30, 742), (48, 712),                                # folha esq.
+    (95, 672), (128, 592), (150, 512), (185, 455), (232, 428),      # nuca dela (fora)
+    (300, 418), (352, 420),                                         # topo cabeça dela
+    (388, 398), (405, 420),                                         # cachinho da testa
+    (418, 452), (432, 486), (452, 505),                             # testa/sobrancelha
+    (500, 520), (470, 536),                                         # nariz dela
+    (482, 556), (460, 566), (476, 582),                            # boca dela
+    (450, 598), (432, 620),                                        # queixo dela
+    (435, 672), (458, 728),                                        # pescoço dela → base
+    (540, 772), (612, 758),                                        # base topo (vão central)
+    (642, 712), (620, 632), (616, 602),                           # queixo dele
+    (598, 584), (582, 566), (600, 548),                           # boca dele
+    (585, 530), (556, 514),                                        # nariz dele
+    (570, 488), (574, 462), (562, 428),                           # testa dele
+    (550, 388), (508, 356), (462, 326),                           # franja até a ponta
+    (502, 344), (540, 300), (556, 232), (562, 185),               # topete → coroa
+]
+
+
+def _casal_vetor(p, cx, cy, s, cor):
+    """Desenha a figura oficial do casal, centrada em (cx,cy), largura = s.
+       (altura ≈ 0.70·s). Curva suave sobre o traçado da referência."""
+    c = p.c
+    c.setFillColor(cor)
+    c.setLineJoin(1); c.setLineCap(1)
+    def X(u): return cx + u * s
+    def Y(v): return cy + v * s
+    uv = [((x - _CX_IMG) / _ESC, (_CY_IMG - y) / _ESC) for (x, y) in _CASAL_IMG]
+    _suave(c, uv, X, Y)
 
 
 def _tem_alpha(c):
@@ -102,10 +102,9 @@ def _tem_alpha(c):
 # API pública
 # ---------------------------------------------------------------------------
 def marca_casal(p, cx, cy, larg=26.0, cor=PETROLEO, opacidade=8):
-    """Só a silhueta do casal, como marca d'água sutil (opacidade em %)."""
+    """Marca do casal, sutil. Usa o PNG oficial (assets/casal.png) se existir;
+       senão, o traçado vetorial fiel da figura."""
     oficial = _png_oficial()
-    if not oficial and not USAR_STANDIN:
-        return                               # sem arte oficial: não desenha nada
     c = p.c
     usa_alpha = _tem_alpha(c)
     if usa_alpha:
@@ -139,29 +138,47 @@ def assinatura(p, cx, cy, larg=52.0, cor=PETROLEO, opacidade=22, frase=True):
             c.restoreState()
 
 
-def _imagem(p, caminho, cx, cy, larg, cor, opacidade):
-    """Desenha a arte oficial (PNG), tingida em `cor`, centrada em (cx,cy)."""
+# limiares do fundo do JPEG (cinza-claro ~239) → transparente; escuro → tinta
+_LIMIAR_HI, _LIMIAR_LO = 205, 90
+_CACHE_IMG = {}
+
+
+def _rgba_tingido(caminho, cor, opacidade):
+    """RGBA da arte tingida em `cor` na opacidade dada, com fundo removido.
+       Cacheado por (arquivo, mtime, cor, opacidade) — roda em 60 cartas."""
     from PIL import Image
-    from reportlab.lib.utils import ImageReader
-    img = Image.open(caminho).convert("L")
-    w, h = img.size
-    alt = larg * h / w
-    # constrói RGBA: pixel escuro -> tinge em `cor`; claro -> transparente
-    rgba = Image.new("RGBA", (w, h), (0, 0, 0, 0))
-    px_src = img.load()
-    px_dst = rgba.load()
     rr, gg, bb = _rgb_de_cmyk(cor)
     r, g, b = int(rr * 255), int(gg * 255), int(bb * 255)
     op = (opacidade or 100) / 100.0
-    for j in range(h):
-        for i in range(w):
-            escuro = 255 - px_src[i, j]           # 255 = tinta cheia
-            a = int(escuro * op)
-            if a:
-                px_dst[i, j] = (r, g, b, a)
-    c = p.c
-    c.drawImage(ImageReader(rgba), cx - larg / 2, cy - alt / 2, larg, alt,
-                mask="auto")
+    chave = (caminho, os.path.getmtime(caminho), r, g, b, round(op, 3))
+    if chave in _CACHE_IMG:
+        return _CACHE_IMG[chave]
+    img = Image.open(caminho).convert("L")
+    # LUT: mapeia cinza -> alfa (soft-threshold), já com a opacidade embutida
+    lut = []
+    for tom in range(256):
+        if tom >= _LIMIAR_HI:
+            frac = 0.0
+        elif tom <= _LIMIAR_LO:
+            frac = 1.0
+        else:
+            frac = (_LIMIAR_HI - tom) / (_LIMIAR_HI - _LIMIAR_LO)
+        lut.append(int(frac * 255 * op))
+    alpha = img.point(lut).convert("L")
+    rgba = Image.new("RGBA", img.size, (r, g, b, 0))
+    rgba.putalpha(alpha)
+    _CACHE_IMG[chave] = rgba
+    return rgba
+
+
+def _imagem(p, caminho, cx, cy, larg, cor, opacidade):
+    """Desenha a arte oficial, tingida em `cor`, centrada em (cx,cy)."""
+    from reportlab.lib.utils import ImageReader
+    rgba = _rgba_tingido(caminho, cor, opacidade)
+    w, h = rgba.size
+    alt = larg * h / w
+    p.c.drawImage(ImageReader(rgba), cx - larg / 2, cy - alt / 2, larg, alt,
+                  mask="auto")
 
 
 # CMYKColor não expõe .red/.green/.blue — helper para o tingimento de imagem
