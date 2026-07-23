@@ -8,6 +8,7 @@ Zona morta do vinco: 7 mm para cada lado — nenhum texto, número ou ícone ent
 import os
 from comum import *
 from dados import (TRILHA, VERSICULO, VERSICULO_REF, PACTO, REGRAS_RESUMO)
+from marca import marca_casal, assinatura
 
 W, H = 400.0, 300.0
 CEL = 26.0          # lado da casa
@@ -113,13 +114,18 @@ def painel_esquerdo(p):
               tracking=1.6)
 
     # ---- ALTAR (chegada) --------------------------------------------------
+    #  texto travado dentro da corda do círculo, para nada escapar do símbolo
     ay, ar = 137.0, 27.5
+    import math as _m
+    def _corda(dy):                          # largura útil do círculo à altura dy
+        return 2.0 * _m.sqrt(max(0.0, ar ** 2 - dy ** 2)) - 5.0
     p.circ(cx, ay, ar + 3.0, stroke=tinta(DOURADO, 60), lw=0.5)
     p.circ(cx, ay, ar, fill=PETROLEO)
-    ico_altar(p, cx, ay + 7.0, 18.0, DOURADO)
-    p.txt(cx, ay - 9.0, "ALTAR", "TituloBold", 10.0, BRANCO, "c", tracking=1.6)
-    p.txt(cx, ay - 15.6, "A TERCEIRA DOBRA", "Texto", 4.6, tinta(DOURADO, 90), "c",
-          tracking=1.1)
+    ico_altar(p, cx, ay + 8.0, 17.0, DOURADO)
+    p.txt_fit(cx, ay - 8.5, "ALTAR", "TituloBold", 10.0, _corda(8.5), BRANCO, "c",
+              tracking=1.6)
+    p.txt_fit(cx, ay - 16.0, "A TERCEIRA DOBRA", "Texto", 4.6, _corda(19.0),
+              tinta(DOURADO, 90), "c", tracking=1.1)
     p.txt_fit(cx, 101, "chegada · completem a volta e venham para cá", "TituloIt",
               6.0, LARG - 6, tinta(PETROLEO, 70), "c")
 
@@ -241,6 +247,12 @@ def verso(p):
             p.txt(cx, y, ln, fonte, tam, cor, "c")
             y -= tam * 1.42
         y -= 5.0
+
+    # marca do casal no vão entre o Pacto e as assinaturas — o pacto é do
+    # casal diante de Deus, então aqui a silhueta é conteúdo, não só marca d'água.
+    vao = y - 90.0
+    tam_marca = max(11.0, min(15.0, vao * 0.78))
+    marca_casal(p, cx, (y + 90) / 2.0, tam_marca, DOURADO, 90)
 
     p.txt(cx, 84, "ASSINAMOS HOJE, JUNTOS", "Texto", 5.6, DOURADO, "c", tracking=1.6)
     for k, rot in enumerate(["ELE", "ELA"]):

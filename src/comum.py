@@ -304,66 +304,79 @@ class Prancha:
 # ÍCONES VETORIAIS (desenhados centrados em (cx,cy), altura ~ `s` mm)
 # ----------------------------------------------------------------------------
 def ico_palavra(p, cx, cy, s, cor):
-    """Balão de fala."""
-    w, h = s * 1.15, s * 0.8
-    p.ret(cx - w / 2, cy - h / 2 + s * 0.12, w, h, stroke=cor, lw=s * 0.09, r=h * 0.32)
+    """Balão de conversa — centrado em (cx,cy)."""
+    w, h = s * 0.98, s * 0.70
+    by = cy + s * 0.10                       # centro do corpo, pouco acima do eixo
+    p.ret(cx - w / 2, by - h / 2, w, h, stroke=cor, lw=s * 0.10, r=h * 0.36)
     c = p.c
-    c.setStrokeColor(cor); c.setFillColor(cor); c.setLineWidth(s * 0.09)
+    c.setStrokeColor(cor); c.setFillColor(cor); c.setLineWidth(s * 0.10)
+    c.setLineJoin(1)
     pth = c.beginPath()
-    pth.moveTo(cx - s * 0.16, cy - h / 2 + s * 0.13)
-    pth.lineTo(cx - s * 0.30, cy - s * 0.50)
-    pth.lineTo(cx + s * 0.04, cy - h / 2 + s * 0.13)
+    pth.moveTo(cx - s * 0.22, by - h / 2 + s * 0.03)
+    pth.lineTo(cx - s * 0.28, cy - s * 0.50)
+    pth.lineTo(cx + s * 0.02, by - h / 2 + s * 0.03)
     c.drawPath(pth, stroke=1, fill=1)
+    for dx in (-0.20, 0.0, 0.20):            # reticências = fala
+        p.circ(cx + dx * s, by, s * 0.052, fill=cor)
 
 
 def ico_tempo(p, cx, cy, s, cor):
-    """Ampulheta."""
+    """Ampulheta — centrada em (cx,cy)."""
     c = p.c
-    c.setStrokeColor(cor); c.setLineWidth(s * 0.09); c.setFillColor(cor)
-    w, h = s * 0.72, s * 0.92
+    lw = s * 0.10
+    w, h = s * 0.64, s * 0.88
+    top, bot = cy + h / 2, cy - h / 2
+    c.setStrokeColor(cor); c.setLineWidth(lw); c.setLineCap(1); c.setLineJoin(1)
     pth = c.beginPath()
-    pth.moveTo(cx - w / 2, cy + h / 2); pth.lineTo(cx + w / 2, cy + h / 2)
-    pth.lineTo(cx - w / 2, cy - h / 2); pth.lineTo(cx + w / 2, cy - h / 2)
+    pth.moveTo(cx - w / 2, top); pth.lineTo(cx + w / 2, top)
+    pth.lineTo(cx - w / 2, bot); pth.lineTo(cx + w / 2, bot)
     pth.close()
     c.drawPath(pth, stroke=1, fill=0)
-    p.linha(cx - w / 2 - s * 0.12, cy + h / 2, cx + w / 2 + s * 0.12, cy + h / 2, cor, s * 0.11)
-    p.linha(cx - w / 2 - s * 0.12, cy - h / 2, cx + w / 2 + s * 0.12, cy - h / 2, cor, s * 0.11)
+    p.linha(cx - w / 2 - s * 0.11, top, cx + w / 2 + s * 0.11, top, cor, lw * 1.05)
+    p.linha(cx - w / 2 - s * 0.11, bot, cx + w / 2 + s * 0.11, bot, cor, lw * 1.05)
+    c.setFillColor(cor)                      # areia acumulada embaixo
     pth = c.beginPath()
-    pth.moveTo(cx - w * 0.26, cy - h / 2 + s * 0.02)
-    pth.lineTo(cx + w * 0.26, cy - h / 2 + s * 0.02)
+    pth.moveTo(cx - w * 0.30, bot + s * 0.03); pth.lineTo(cx + w * 0.30, bot + s * 0.03)
     pth.lineTo(cx, cy - s * 0.02); pth.close()
     c.drawPath(pth, stroke=0, fill=1)
 
 
 def ico_presente(p, cx, cy, s, cor):
-    """Caixa de presente."""
-    w, h = s * 0.92, s * 0.74
-    p.ret(cx - w / 2, cy - h / 2 - s * 0.06, w, h, stroke=cor, lw=s * 0.09, r=s * 0.06)
-    p.linha(cx - w / 2, cy + h * 0.18 - s * 0.06, cx + w / 2, cy + h * 0.18 - s * 0.06, cor, s * 0.09)
-    p.linha(cx, cy - h / 2 - s * 0.06, cx, cy + h / 2 - s * 0.06, cor, s * 0.09)
-    p.circ(cx - s * 0.17, cy + h / 2 + s * 0.06, s * 0.15, stroke=cor, lw=s * 0.085)
-    p.circ(cx + s * 0.17, cy + h / 2 + s * 0.06, s * 0.15, stroke=cor, lw=s * 0.085)
+    """Caixa de presente — centrada em (cx,cy)."""
+    w, h = s * 0.86, s * 0.60
+    box_b = cy - s * 0.42
+    p.ret(cx - w / 2, box_b, w, h, stroke=cor, lw=s * 0.10, r=s * 0.05)
+    p.linha(cx, box_b, cx, box_b + h, cor, s * 0.10)              # fita vertical
+    p.linha(cx - w / 2, box_b + h * 0.60, cx + w / 2, box_b + h * 0.60, cor, s * 0.10)
+    ly = box_b + h + s * 0.11                                     # laço acima
+    p.circ(cx - s * 0.155, ly, s * 0.135, stroke=cor, lw=s * 0.09)
+    p.circ(cx + s * 0.155, ly, s * 0.135, stroke=cor, lw=s * 0.09)
 
 
 def ico_servico(p, cx, cy, s, cor):
-    """Mão aberta — atos de serviço."""
+    """Mão aberta — atos de serviço. Centrada em (cx,cy)."""
     c = p.c
     c.setFillColor(cor)
     # palma
-    p.ret(cx - s * 0.27, cy - s * 0.46, s * 0.54, s * 0.46, fill=cor, r=s * 0.13)
-    # quatro dedos
-    for dx, alt in ((-0.20, 0.30), (-0.068, 0.40), (0.068, 0.37), (0.20, 0.26)):
-        p.ret(cx + dx * s - s * 0.055, cy - s * 0.06, s * 0.11, alt * s,
-              fill=cor, r=s * 0.055)
-    # polegar
+    pw, ph = s * 0.50, s * 0.40
+    palm_b = cy - s * 0.45
+    p.ret(cx - pw / 2, palm_b, pw, ph, fill=cor, r=s * 0.13)
+    # quatro dedos, base sobreposta à palma, pontas em arco natural
+    base_y = cy - s * 0.10
+    for dx, tp in ((-0.195, 0.22), (-0.065, 0.40), (0.065, 0.33), (0.195, 0.16)):
+        top_y = cy + tp * s
+        p.ret(cx + dx * s - s * 0.054, base_y, s * 0.108, top_y - base_y,
+              fill=cor, r=s * 0.054)
+    # polegar — maior e inclinado
     c.saveState()
-    c.translate(cx - s * 0.30, cy - s * 0.20); c.rotate(38)
-    p.ret(-s * 0.055, 0, s * 0.11, s * 0.26, fill=cor, r=s * 0.055)
+    c.translate(cx - s * 0.22, cy - s * 0.32); c.rotate(43)
+    p.ret(-s * 0.06, 0, s * 0.12, s * 0.36, fill=cor, r=s * 0.06)
     c.restoreState()
 
 
-def _coracao(c, cx, cy, s, cor, preencher=True):
+def _coracao(c, cx, cy, s, cor, preencher=True, lw=None):
     c.setFillColor(cor); c.setStrokeColor(cor)
+    c.setLineWidth(lw if lw else s * 0.14); c.setLineJoin(1)
     pth = c.beginPath()
     pth.moveTo(cx, cy - s * 0.42)
     pth.curveTo(cx - s * 0.95, cy + s * 0.22, cx - s * 0.36, cy + s * 0.86, cx, cy + s * 0.30)
@@ -373,38 +386,45 @@ def _coracao(c, cx, cy, s, cor, preencher=True):
 
 
 def ico_toque(p, cx, cy, s, cor):
-    """Duas alianças entrelaçadas."""
-    r = s * 0.34
-    p.circ(cx - r * 0.62, cy, r, stroke=cor, lw=s * 0.10)
-    p.circ(cx + r * 0.62, cy, r, stroke=cor, lw=s * 0.10)
+    """Duas alianças entrelaçadas — centradas em (cx,cy)."""
+    r = s * 0.32
+    off = r * 0.62
+    p.circ(cx - off, cy, r, stroke=cor, lw=s * 0.11)
+    p.circ(cx + off, cy, r, stroke=cor, lw=s * 0.11)
 
 
 def ico_espelho(p, cx, cy, s, cor):
-    """Espelho de mão — o quanto eu te conheço."""
+    """Espelho de mão — o quanto eu te conheço. Centrado em (cx,cy)."""
     c = p.c
-    cyo = cy + s * 0.14
+    gy = cy + s * 0.16                        # centro do vidro
+    rg = s * 0.34
     c.saveState()
-    c.translate(cx, cyo); c.scale(0.80, 1.0); c.translate(-cx, -cyo)
-    p.circ(cx, cyo, s * 0.36, stroke=cor, lw=s * 0.10)
-    p.circ(cx, cyo, s * 0.24, fill=tinta(cor, 22))
+    c.translate(cx, gy); c.scale(0.82, 1.0); c.translate(-cx, -gy)
+    p.circ(cx, gy, rg, stroke=cor, lw=s * 0.10)
+    p.circ(cx, gy, rg - s * 0.12, fill=tinta(cor, 18))
     c.restoreState()
     # cabo
-    p.ret(cx - s * 0.055, cy - s * 0.48, s * 0.11, s * 0.30, fill=cor, r=s * 0.05)
-    p.ret(cx - s * 0.13, cy - s * 0.50, s * 0.26, s * 0.08, fill=cor, r=s * 0.04)
-    # reflexo
-    p.linha(cx - s * 0.13, cyo - s * 0.02, cx - s * 0.05, cyo + s * 0.14, cor, s * 0.06)
+    p.ret(cx - s * 0.05, cy - s * 0.46, s * 0.10, s * 0.30, fill=cor, r=s * 0.05)
+    p.ret(cx - s * 0.12, cy - s * 0.50, s * 0.24, s * 0.08, fill=cor, r=s * 0.04)
+    # brilho (arco fino no vidro)
+    c.setStrokeColor(cor); c.setLineWidth(s * 0.05); c.setLineCap(1)
+    pth = c.beginPath()
+    pth.moveTo(cx - s * 0.13, gy + s * 0.03)
+    pth.curveTo(cx - s * 0.17, gy + s * 0.15, cx - s * 0.05, gy + s * 0.21,
+                cx + s * 0.03, gy + s * 0.20)
+    c.drawPath(pth, stroke=1, fill=0)
 
 
 def ico_altar(p, cx, cy, s, cor):
-    """Cruz."""
-    e = s * 0.17
+    """Cruz latina — centrada em (cx,cy)."""
+    e = s * 0.16
     p.ret(cx - e / 2, cy - s * 0.50, e, s * 1.00, fill=cor)
-    p.ret(cx - s * 0.36, cy + s * 0.12, s * 0.72, e, fill=cor)
+    p.ret(cx - s * 0.34, cy + s * 0.14, s * 0.68, e, fill=cor)
 
 
 def ico_inicio(p, cx, cy, s, cor):
-    """Duas alianças + seta de partida."""
-    _coracao(p.c, cx, cy + s * 0.02, s * 0.72, cor, preencher=False)
+    """Coração — o começo, a dois. Centrado em (cx,cy)."""
+    _coracao(p.c, cx, cy - s * 0.04, s * 0.78, cor, preencher=False)
 
 
 ICONES = {

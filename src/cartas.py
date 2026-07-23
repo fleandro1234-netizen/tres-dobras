@@ -14,6 +14,7 @@ import os
 from comum import *
 from dados import (LINGUAGENS, NIVEIS, ESPELHO, ALTAR, SELADO,
                    SELADO_TITULO, SELADO_EPIGRAFE, VERSICULO_REF)
+from marca import marca_casal
 
 CW, CH = 70.0, 120.0      # formato final da carta
 RC = 4.0                  # raio do canto (faca)
@@ -125,20 +126,21 @@ def verso_jogo(p):
     _sangria(p, PETROLEO)
     p.ret(SEG - 2.0, SEG - 2.0, CW - 2 * (SEG - 2.0), CH - 2 * (SEG - 2.0),
           stroke=tinta(DOURADO, 70), lw=0.5, r=2.5)
-    cordao_vertical(p, CW / 2, 12.0, CH - 12.0, 26.0,
+    cordao_vertical(p, CW / 2, 30.0, CH - 12.0, 26.0,   # para acima do rodapé
                     (tinta(DOURADO, 60), tinta(TERRACOTA, 45), tinta(AZUL, 45)),
                     lw=0.7, ciclos=4)
     p.ret(6.0, CH / 2 - 15.0, CW - 12.0, 30.0, fill=PETROLEO)
     logo(p, CW / 2, CH / 2 + 2.0, s=1.0, cor=BRANCO, cor2=DOURADO, larg=CW - 20.0)
     p.txt(CW / 2, CH / 2 - 9.5, VERSICULO_REF, "Texto", 3.6, tinta(DOURADO, 90),
           "c", tracking=1.2)
+    marca_casal(p, CW / 2, 17.0, 13.0, DOURADO, 82)     # marca do casal (rodapé)
 
 
 def verso_selado(p):
     _sangria(p, VINHO)
     p.ret(SEG - 2.0, SEG - 2.0, CW - 2 * (SEG - 2.0), CH - 2 * (SEG - 2.0),
           stroke=tinta(DOURADO, 70), lw=0.5, r=2.5)
-    cordao_vertical(p, CW / 2, 12.0, CH - 12.0, 26.0,
+    cordao_vertical(p, CW / 2, 30.0, CH - 12.0, 26.0,   # para acima do rodapé
                     (tinta(DOURADO, 55), tinta(CREME, 45), tinta(CREME, 25)),
                     lw=0.7, ciclos=4)
     p.ret(6.0, CH / 2 - 17.0, CW - 12.0, 34.0, fill=VINHO)
@@ -148,6 +150,7 @@ def verso_selado(p):
               "c", tracking=1.5)
     p.txt(CW / 2, CH / 2 - 12.0, "CÂNTICO 4.12", "Texto", 3.6, tinta(DOURADO, 95),
           "c", tracking=1.2)
+    marca_casal(p, CW / 2, 15.0, 12.0, tinta(DOURADO, 85), 90)   # marca do casal
 
 
 # ------------------------------------------------------------- CATÁLOGO ------

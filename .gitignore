@@ -7,6 +7,9 @@ venv/
 # previews de trabalho (regeráveis com src/gerar_tudo.py)
 _previews/
 
+# o manual servido é docs/index.html; este é só a cópia de trabalho na raiz
+/MANUAL-TRES-DOBRAS.html
+
 # sistema
 Thumbs.db
 desktop.ini
