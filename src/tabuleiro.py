@@ -15,6 +15,51 @@ CEL = 26.0          # lado da casa
 RCEL = 4.0          # raio da casa
 
 # --------------------------------------------------------------------------
+# Números dentro de bolas — centralização perfeita, sem encostar na borda.
+# A Corbel usa algarismos de estilo antigo (7, 9, 3 descem; 6, 8 sobem), o que
+# tira o número do centro da bola. Aqui usamos a Palatino (algarismos "lining",
+# todos da mesma altura) e centramos pela caixa REAL de tinta lida do TTF.
+# --------------------------------------------------------------------------
+from PIL import ImageFont
+from comum import _FONTES as _FONTFILES
+
+FONTE_NUM = "TituloBold"          # Palatino Bold — algarismos alinhados (lining)
+_PILF = {}
+
+
+def _pil_font(fonte):
+    if fonte not in _PILF:
+        base = os.path.join(os.environ.get("WINDIR", r"C:\Windows"), "Fonts")
+        _PILF[fonte] = ImageFont.truetype(os.path.join(base, _FONTFILES[fonte]), 400)
+    return _PILF[fonte]
+
+
+def _tam_uniforme(labels, r, folga, fonte=FONTE_NUM):
+    """Maior corpo (mm) p/ TODOS os labels caberem numa bola de raio r com folga."""
+    f = _pil_font(fonte)
+    lim = 2.0 * r * folga
+    best = 99.0
+    for s in labels:
+        l, t, rr, b = f.getbbox(s)
+        best = min(best, lim / ((rr - l) / 400.0), lim / ((b - t) / 400.0))
+    return best
+
+
+def num_bola(p, cx, cy, r, texto, cor, tam, fonte=FONTE_NUM):
+    """Número centrado pela caixa real de tinta dentro da bola (cx, cy, r)."""
+    f = _pil_font(fonte)
+    asc = f.getmetrics()[0]
+    l, t, rr, b = f.getbbox(str(texto))
+    centro = (asc - (t + b) / 2.0) * (tam / 400.0)     # mm acima da baseline
+    p.txt(cx, cy - centro, str(texto), fonte, tam, cor, "c")
+
+
+BADGE_R = 2.8                      # raio da bola do número da casa
+BADGE_TAM = _tam_uniforme([str(i) for i in range(2, 31)], BADGE_R, 0.72)
+COMO_R = 2.3                       # raio da bola dos passos do "COMO JOGAR"
+COMO_TAM = _tam_uniforme([str(i) for i in range(1, 7)], COMO_R, 0.70)
+
+# --------------------------------------------------------------------------
 # Geometria da trilha (30 casas, sentido horário, INÍCIO no canto inf. esq.)
 # --------------------------------------------------------------------------
 XS_ESQ = [32.0, 64.0, 96.0, 128.0, 160.0]
@@ -74,12 +119,11 @@ def casa(p, i, x, y, tipo):
     ICONES[tipo](p, x, y - 1.0, 11.0, cor)
     p.txt_fit(x, y - 10.8, NAIPES[tipo]["nome"], "TextoBold", 4.6, CEL - 5.0,
               cor, "c", tracking=0.4)
-    # número da casa — PADRÃO único, centralizado no topo: círculo petróleo,
-    # borda dourada, número branco (igual em todas as casas).
+    # número da casa — círculo na COR DO NAIPE (igual à imagem de referência),
+    # centralizado no topo da casa, número branco perfeitamente centrado na bola.
     bx, by = x, y + CEL / 2 - 4.2
-    p.circ(bx, by, 2.7, fill=PETROLEO)
-    p.circ(bx, by, 2.7, stroke=tinta(DOURADO, 90), lw=0.35)
-    p.txt_fit(bx, by - 1.5, str(i), "TextoBold", 4.4, 4.2, BRANCO, "c")
+    p.circ(bx, by, BADGE_R, fill=cor)
+    num_bola(p, bx, by, BADGE_R, i, BRANCO, BADGE_TAM)
 
 
 def seta(p, x, y, ang):
@@ -138,8 +182,10 @@ def painel_esquerdo(p):
     p.txt(cx, 88, "COMO JOGAR", "TextoBold", 6.2, PETROLEO, "c", tracking=1.8)
     y = 80.5
     for n, txt in REGRAS_RESUMO:
-        p.circ(x0 + 3.4, y + 0.9, 2.3, fill=tinta(PETROLEO, 85))
-        p.txt(x0 + 3.4, y + 0.1, n, "TextoBold", 4.1, BRANCO, "c")
+        # bola e número alinhados ao centro óptico da frase (baseline em y)
+        cy = y + 1.85
+        p.circ(x0 + 3.4, cy, COMO_R, fill=tinta(PETROLEO, 85))
+        num_bola(p, x0 + 3.4, cy, COMO_R, n, BRANCO, COMO_TAM)
         p.txt_fit(x0 + 8.0, y, txt, "Texto", 5.3, LARG - 9.0, tinta(PETROLEO, 80))
         y -= 5.5
     assert y + 5.5 >= 52.0, "resumo das regras invade a fileira inferior de casas"
@@ -154,6 +200,8 @@ def painel_direito(p):
               PETROLEO, "c", tracking=1.5)
     p.txt_fit(cx, 232.5, "plantem uma semente a cada carta cumprida", "TituloIt", 5.8,
               x1 - x0 - 4, tinta(PETROLEO, 70), "c")
+    p.txt_fit(cx, 226.2, "canteiro cheio (5 sementes) abre o Jardim", "TituloIt", 5.2,
+              x1 - x0 - 4, tinta(VINHO, 82), "c")
 
     ys = [206.0, 171.0, 136.0, 101.0, 66.0]
     ALT = 31.0
@@ -222,8 +270,9 @@ BLOCOS_REGRAS = [
                 "Bênção e Pacto. Não corram: é aqui que o jogo vira casamento."),
     ("O MAPA", "No fim, olhem os canteiros. O que ficou vazio é a linguagem que "
                "vocês têm negligenciado. Escolham uma e cuidem dela neste mês."),
-    ("O ENVELOPE", "O envelope lacrado é só para casais casados e não se abre aqui. "
-                   "Levem-no para casa e abram a sós."),
+    ("O JARDIM", "Encheram um canteiro inteiro — as cinco sementes de uma "
+                 "linguagem no Mapa? Rompam o selo do envelope e vivam, a dois, "
+                 "as dez cartas mais profundas do jogo."),
 ]
 
 

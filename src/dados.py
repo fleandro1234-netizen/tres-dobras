@@ -176,7 +176,7 @@ ALTAR = [
 ]
 
 # ----------------------------------------------------- ENVELOPE SELADO -------
-# NÃO se abre no evento. É para casais casados, em casa.
+# Selado; o casal rompe o selo ao encher um canteiro inteiro no Mapa (5 sementes).
 SELADO_TITULO = "O JARDIM FECHADO"
 SELADO_EPIGRAFE = "“Jardim fechado és tu, minha irmã, minha esposa.” — Cântico 4.12"
 SELADO = [

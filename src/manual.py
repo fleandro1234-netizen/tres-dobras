@@ -40,7 +40,7 @@ def montar_cartas():
                        "texto": txt})
     for i, txt in enumerate(SELADO, start=1):
         cartas.append({"naipe": "SELADO", "id": f"JAR {i:02d}", "texto": txt,
-                       "nota": "Vai lacrada no envelope. Não se abre no evento."})
+                       "nota": "Rompam o selo ao encher um canteiro inteiro no Mapa."})
     return cartas
 
 
@@ -95,9 +95,9 @@ PASSOS = [
     ("Cheguem ao Altar",
      "Fechada a volta, as quatro cartas de Altar. Sem pressa — é aqui que o "
      "jogo vira casamento. O Pacto é assinado no verso do tabuleiro, com data."),
-    ("Levem o envelope para casa",
-     "As dez cartas do Jardim Fechado saem lacradas e não se abrem no evento. "
-     "São para casais casados, a sós, em casa."),
+    ("Abram o Jardim",
+     "Encheram um canteiro inteiro — as cinco sementes de uma linguagem? Rompam "
+     "o selo do envelope e vivam, a dois, as dez cartas mais profundas do jogo."),
 ]
 
 FICHA = [
@@ -207,7 +207,7 @@ def html():
         .replace("__FIG_VERSO_JOGO__", fig("verso_jogo",
                  "Verso das 50 cartas do jogo", "70 × 120 mm")) \
         .replace("__FIG_VERSO_SELADO__", fig("verso_selado",
-                 "Verso das 10 cartas lacradas", "70 × 120 mm")) \
+                 "Verso das 10 cartas do Jardim", "70 × 120 mm")) \
         .replace("__PONTOS__", pontos_html) \
         .replace("__PASSOS__", passos_html) \
         .replace("__FICHA__", ficha_html) \
@@ -450,8 +450,8 @@ footer{padding:44px 0 60px;color:var(--txt-dim);font-size:.88rem;display:grid;ga
       — Eclesiastes 4.12</p>
     <p class="lede">Um jogo de tabuleiro cooperativo para casais. Um único peão
       para os dois, cinco linguagens do amor, três níveis de profundidade — e um
-      envelope que só se abre em casa. Este manual mostra o que foi desenhado,
-      como se joga e o que a gráfica precisa saber.</p>
+      Jardim que se abre quando um canteiro se enche. Este manual mostra o que foi
+      desenhado, como se joga e o que a gráfica precisa saber.</p>
     <div class="stats">
       <div><b>3</b><small>projetos de impressão</small></div>
       <div><b>60</b><small>cartas · 3 níveis cada</small></div>
@@ -499,11 +499,12 @@ footer{padding:44px 0 60px;color:var(--txt-dim);font-size:.88rem;display:grid;ga
         vazio no fim é o diagnóstico do casal.</p>
     </div>
     <div>
-      <h3>O envelope não se abre aqui</h3>
+      <h3>O Jardim se abre quando vocês o conquistam</h3>
       <p style="color:var(--txt-dim);margin-top:8px">As dez cartas do Jardim
         Fechado tratam da intimidade conjugal na linguagem de Cântico dos
-        Cânticos. Saem lacradas: são para casais casados, a sós, em casa. O
-        evento fica confortável e o casal leva o melhor para depois.</p>
+        Cânticos. Saem seladas: o selo se rompe quando o casal enche um canteiro
+        inteiro no Mapa — as cinco sementes de uma linguagem. É a recompensa mais
+        profunda do jogo, vivida só pelos dois.</p>
     </div>
   </div>
   <div style="margin-top:34px">
@@ -593,7 +594,7 @@ footer{padding:44px 0 60px;color:var(--txt-dim);font-size:.88rem;display:grid;ga
     <div style="display:grid;gap:12px;align-content:start">
       <h3>Só duas artes de verso</h3>
       <p style="color:var(--txt-dim)">Uma para as 50 cartas do jogo e outra para
-        as 10 lacradas. Mesmo assim o arquivo de versos vai com as 60 páginas
+        as 10 do Jardim. Mesmo assim o arquivo de versos vai com as 60 páginas
         casadas 1:1 com as frentes, para a imposição não errar.</p>
     </div>
   </div>
@@ -746,7 +747,7 @@ const DESC = {
   TOQUE:'Toque físico e afeto, tratado com respeito.',
   ESPELHO:'Você responde pelo seu cônjuge. Quatro casas no percurso, seis cartas.',
   ALTAR:'As quatro cartas finais. Gratidão, Perdão, Bênção e Pacto.',
-  SELADO:'As dez cartas lacradas do Jardim Fechado. Não se abrem no evento.'
+  SELADO:'As dez cartas do Jardim Fechado. Abrem-se ao encher um canteiro inteiro no Mapa.'
 };
 
 function pintar(){

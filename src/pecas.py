@@ -243,8 +243,8 @@ def envelope(p):
                   "TituloIt", 5.0, 3.6, tinta(DOURADO, 95), lead=1.25, al="c")
     ico_toque(p, xf + EP_W / 2, y_frente + 46, 20.0, tinta(DOURADO, 90))
     p.texto_caixa(xf + 7, y_frente + 30, EP_W - 14, 24,
-                  "NÃO ABRAM AQUI. Este envelope é para casais casados — "
-                  "levem-no para casa e abram a sós.",
+                  "Encham um canteiro inteiro no Mapa — as cinco sementes de uma "
+                  "linguagem — e rompam o selo.",
                   "TextoBold", 4.4, 3.4, CREME, lead=1.30, al="c")
 
     # painel VERSO
@@ -253,7 +253,7 @@ def envelope(p):
          larg=EP_W - 20)
     p.texto_caixa(xf + 8, y_verso + EP_H - 52, EP_W - 16, 40,
                   "10 convites para a intimidade do casamento, na linguagem do "
-                  "Cântico dos Cânticos. Uma por semana, sem pressa.",
+                  "Cântico dos Cânticos. Sem pressa, a dois.",
                   "Texto", 4.6, 3.4, tinta(PETROLEO, 90), lead=1.28, al="c")
     p.txt(xf + EP_W / 2, y_verso + 20, "1 CORÍNTIOS 7.3-5", "Texto", 4.0,
           tinta(VINHO, 85), "c", tracking=1.3)
