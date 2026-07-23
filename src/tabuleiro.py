@@ -70,15 +70,16 @@ def casa(p, i, x, y, tipo):
         return
     p.ret(x - CEL / 2, y - CEL / 2, CEL, CEL, fill=tinta(cor, 13), r=RCEL)
     p.ret(x - CEL / 2, y - CEL / 2, CEL, CEL, stroke=cor, lw=0.7, r=RCEL)
-    ICONES[tipo](p, x, y + 1.8, 12.0, cor)
-    p.txt_fit(x, y - 10.4, NAIPES[tipo]["nome"], "TextoBold", 4.8, CEL - 5.0,
-              cor, "c", tracking=0.45)
-    # número da casa — PADRÃO único em todas: círculo petróleo, número branco,
-    # borda dourada. (antes cada um usava a cor do naipe, sem padrão.)
-    bx, by = x - CEL / 2 + 4.0, y + CEL / 2 - 4.0
-    p.circ(bx, by, 2.9, fill=PETROLEO)
-    p.circ(bx, by, 2.9, stroke=tinta(DOURADO, 90), lw=0.35)
-    p.txt_fit(bx, by - 1.55, str(i), "TextoBold", 4.6, 4.4, BRANCO, "c")
+    # pilha centralizada: número (topo) · ícone (meio) · nome (base)
+    ICONES[tipo](p, x, y - 1.0, 11.0, cor)
+    p.txt_fit(x, y - 10.8, NAIPES[tipo]["nome"], "TextoBold", 4.6, CEL - 5.0,
+              cor, "c", tracking=0.4)
+    # número da casa — PADRÃO único, centralizado no topo: círculo petróleo,
+    # borda dourada, número branco (igual em todas as casas).
+    bx, by = x, y + CEL / 2 - 4.2
+    p.circ(bx, by, 2.7, fill=PETROLEO)
+    p.circ(bx, by, 2.7, stroke=tinta(DOURADO, 90), lw=0.35)
+    p.txt_fit(bx, by - 1.5, str(i), "TextoBold", 4.4, 4.2, BRANCO, "c")
 
 
 def seta(p, x, y, ang):
