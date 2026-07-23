@@ -25,12 +25,23 @@ FRASE = "CASADOS PARA A GLÓRIA DE DEUS"
 USAR_STANDIN = os.environ.get("TD_STANDIN") == "1"
 
 
-def _png_oficial():
-    for nome in ("casal.png", "casal.PNG", "casal.jpg"):
-        cam = os.path.join(_ASSETS, nome)
+def _png_arquivo(base):
+    for ext in (".png", ".PNG", ".jpg", ".jpeg"):
+        cam = os.path.join(_ASSETS, base + ext)
         if os.path.exists(cam):
             return cam
     return None
+
+
+def _png_oficial():
+    return _png_arquivo("casal")
+
+
+def marca_logo(p, cx, cy, larg=60.0, cor=PETROLEO, opacidade=90):
+    """Letreiro 'Casados para a Glória de Deus' (assets/logo.png), tingido."""
+    cam = _png_arquivo("logo")
+    if cam:
+        _imagem(p, cam, cx, cy, larg, cor, opacidade)
 
 
 # ---------------------------------------------------------------------------

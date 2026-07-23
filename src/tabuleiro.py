@@ -194,6 +194,8 @@ def frente(p):
     seta(p, (XS_ESQ[1] + XS_ESQ[2]) / 2, Y_BASE - 16.5, 180)
     painel_esquerdo(p)
     painel_direito(p)
+    # marca d'água grande e bem transparente, POR CIMA de tudo (overlay uniforme)
+    marca_casal(p, 200, 152, 205, PETROLEO, 13)
     p.marcas_corte(vinco_x=DOBRA_X, rotulo="TRES DOBRAS · TABULEIRO · FRENTE · 400x300mm · sangria 3mm · CMYK")
 
 

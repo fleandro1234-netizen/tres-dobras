@@ -12,6 +12,7 @@ para a gráfica isolar numa camada técnica. Arte impressa só na FACE EXTERNA.
 import os
 from comum import *
 from dados import VERSICULO, VERSICULO_REF
+from marca import marca_casal, marca_logo
 
 FACA = cmyk(0, 100, 0, 0)
 VINCO_C = cmyk(100, 0, 0, 0)
@@ -110,10 +111,8 @@ def tampa(p):
     p.ret(px + 13, py + 13, W - 26, L - 26, stroke=tinta(DOURADO, 35), lw=0.25)
 
     ccx = px + W / 2
-    # cordão pendendo do alto (ornamento; nunca sobre texto)
-    cordao_vertical(p, ccx, py + L - 44, py + L - 16, 22.0,
-                    (tinta(DOURADO, 55), tinta(TERRACOTA, 35), tinta(AZUL, 35)),
-                    lw=0.8, ciclos=1)
+    # símbolo do casal (arte oficial) no alto da capa, centralizado
+    marca_casal(p, ccx, py + L - 31, 42, DOURADO, 92)
 
     p.txt_fit(ccx, py + 232, "TRÊS", "TituloBold", 34, W - 64, CREME, "c",
               tracking=5.0)
@@ -141,13 +140,11 @@ def tampa(p):
         p.circ(x, ys, 13.0, fill=CREME)
         ICONES[tipo](p, x, ys, 15.0, NAIPES[tipo]["cor"])
 
-    p.txt_fit(ccx, py + 56, "60 cartas · tabuleiro dobrável · 36 peças", "TituloIt",
-              7.4, W - 56, CREME, "c")
-    p.txt_fit(ccx, py + 44, "+ envelope selado para levar para casa", "TituloIt",
-              7.4, W - 56, tinta(DOURADO, 95), "c")
-    p.linha(px + 46, py + 34, px + W - 46, py + 34, tinta(DOURADO, 55), 0.4)
-    p.txt_fit(ccx, py + 22, "CONGRESSO DE CASAIS", "Texto", 5.6, W - 70,
+    p.linha(px + 46, py + 54, px + W - 46, py + 54, tinta(DOURADO, 55), 0.4)
+    p.txt_fit(ccx, py + 42, "CONGRESSO DE CASAIS", "Texto", 5.6, W - 70,
               tinta(DOURADO, 85), "c", tracking=2.4)
+    # letreiro do ministério (arte oficial), discreto no rodapé da capa
+    marca_logo(p, ccx, py + 25, 48, tinta(DOURADO, 92), 92)
 
     # ---- paredes ----------------------------------------------------------
     LOMBADA = "TRÊS DOBRAS · UM JOGO PARA CASAIS"
@@ -215,6 +212,9 @@ def fundo(p):
     p.txt(ccx, y - 49, "não é um jogo sobre vencer", "TituloIt", 6.6,
           tinta(PETROLEO, 60), "c")
     assert y - 49 >= py + 16, "bloco de fecho do fundo estourou o painel"
+
+    # marca d'água do casal, grande e bem transparente, sobre o fundo
+    marca_casal(p, ccx, py + L / 2, 150, PETROLEO, 10)
 
     contorno(p, cx)
     p.marcas_corte(rotulo="TRES DOBRAS · CAIXA FUNDO · interno 203x303x28mm · planificado 259x359mm · faca MAGENTA / vinco CIANO")
