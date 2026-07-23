@@ -8,10 +8,24 @@ TRÊS DOBRAS — PEÇAS DESTACÁVEIS
 Sangria 3 mm em tudo. Linhas de FACA em magenta 100% com sobreimpressão.
 """
 import os
+import math
 from comum import *
 
 FACA = cmyk(0, 100, 0, 0)          # cor técnica: mover para camada própria
 VINCO_C = cmyk(100, 0, 0, 0)       # ciano 100% = linha de vinco/dobra
+
+
+def _tam_uniforme_txt(palavras, fonte, larg, tam0, trk0):
+    """Maior corpo <= tam0 (tracking proporcional) para TODAS as palavras caberem
+       em `larg` mm. Uso: rótulos dentro de círculos, sem estourar a borda."""
+    t = tam0
+    while t > 1.6:
+        tr = trk0 * (t / tam0)
+        if all(pdfmetrics.stringWidth(w, fonte, t) + tr * len(w) <= larg
+               for w in palavras):
+            break
+        t -= 0.05
+    return t, trk0 * (t / tam0)
 
 
 def _faca(p, fechar=None):
@@ -62,14 +76,18 @@ def cartela(p):
     RS = 12.0
     xs = [25 + i * 30 for i in range(6)]
     ys = [226, 199, 172, 145, 118]
+    # rótulo cabe na corda do círculo à altura da base do texto (nunca estoura)
+    larg_s = 2 * math.sqrt(RS ** 2 - 8.2 ** 2) - 3.0
+    tam_s, trk_s = _tam_uniforme_txt([NAIPES[t]["nome"] for t in CORES_SEMENTE],
+                                     "TextoBold", larg_s, 3.3, 0.3)
     for tipo, y in zip(CORES_SEMENTE, ys):
         cor = NAIPES[tipo]["cor"]
         for x in xs:
             p.circ(x, y, RS, fill=tinta(cor, 20))
             p.circ(x, y, RS, stroke=cor, lw=0.6)
             ICONES[tipo](p, x, y + 1.6, 10.5, cor)
-            p.txt_fit(x, y - 8.2, NAIPES[tipo]["nome"], "TextoBold", 3.1, 19.0,
-                      cor, "c", tracking=0.35)
+            p.txt(x, y - 8.2, NAIPES[tipo]["nome"], "TextoBold", tam_s, cor, "c",
+                  tracking=trk_s)
             faca_circ(p, x, y, RS)
     assert ys[0] + RS < CHh - 40, "sementes colidem com o cabeçalho"
 
@@ -108,15 +126,19 @@ def cartela(p):
 
     # ---- marcadores de nível ---------------------------------------------
     p.txt(142, 93, "MARCADOR DE NÍVEL", "TextoBold", 4.2, PETROLEO, "c", tracking=1.1)
+    RM = 14.0                       # marcadores um pouco maiores: só há 3, sobra espaço
+    rots = ["CONHECER", "APROXIMAR", "APROFUNDAR"]
+    larg_m = 2 * math.sqrt(RM ** 2 - 8.6 ** 2) - 3.0
+    tam_m, trk_m = _tam_uniforme_txt(rots, "TextoBold", larg_m, 3.4, 0.25)
     for k, (num, rot) in enumerate([("1", "CONHECER"), ("2", "APROXIMAR"),
                                     ("3", "APROFUNDAR")]):
         x, y = 112 + k * 30, 64
-        p.circ(x, y, RS, fill=tinta(PETROLEO, 12))
-        p.circ(x, y, RS, stroke=PETROLEO, lw=0.6)
-        p.txt(x, y + 1.0, num, "TituloBold", 10.0, PETROLEO, "c")
-        p.txt_fit(x, y - 7.8, rot, "TextoBold", 3.1, 19.0, tinta(PETROLEO, 80), "c",
-                  tracking=0.3)
-        faca_circ(p, x, y, RS)
+        p.circ(x, y, RM, fill=tinta(PETROLEO, 12))
+        p.circ(x, y, RM, stroke=PETROLEO, lw=0.6)
+        p.txt(x, y + 1.4, num, "TituloBold", 11.0, PETROLEO, "c")
+        p.txt(x, y - 8.6, rot, "TextoBold", tam_m, tinta(PETROLEO, 80), "c",
+              tracking=trk_m)
+        faca_circ(p, x, y, RM)
 
     p.txt(142, 34, "Deixem o marcador à vista.", "TituloIt", 4.4,
           tinta(PETROLEO, 70), "c")
